@@ -1,0 +1,267 @@
+---
+swagger: "2.0"
+info:
+  description: "VAPI"
+  version: "1.0.0"
+  title: "VAPI"
+  contact:
+    email: "manybahtpage@gmail.com"
+host: "vapi.many.win"
+tags:
+- name: "Default"
+  description: "Laibaht The Vtuber !"
+  externalDocs:
+    description: "Youtube Channel"
+    url: "https://www.youtube.com/channel/UCR1Htb-H1-tus7UPotPh69A"
+- name: "Vtubers Thai"
+  description: "(ย้อนหลังสูงสุด 7 วัน)"
+- name: "Vtubers All"
+  description: "ดึงข้อมูลคลิปวีทูบเบอร์ทั้งหมดทั่วโลก (ย้อนหลังสูงสุด 1 วัน)"
+- name: "Vtubers Hololive"
+  description: "ดึงข้อมูลคลิปวีเฉพาะ Hololive (ย้อนหลังสูงสุด 7 วัน)"
+- name: "Vtubers Nijisanji"
+  description: "ดึงข้อมูลคลิปวีเฉพาะ Nijisanji (ย้อนหลังสูงสุด 7 วัน)"
+- name: "Info"
+  description: "ดึงข้อมูลกลุ่มวี, วี นั้น ๆ"
+  externalDocs:
+    description: "VTBS Credit"
+    url: "https://vdb.vtbs.moe"
+schemes:
+- "https"
+- "http"
+paths:
+  /:
+    get:
+      tags:
+      - "Default"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+  /other/thai:
+    get:
+      tags:
+      - "Vtubers Thai"
+      description: "ดึงข้อมูลคลิปวีไทย Index 0 (หน้าละ 50 ข้อมูล)"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+  /other/thai/{index}:
+    get:
+      tags:
+      - "Vtubers Thai"
+      description: "ดึงข้อมูลคลิปวีไทย Index อื่น ๆ (หน้าละ 50 ข้อมูล)"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "index"
+        in: "path"
+        description: "เช่น 1, 2, 3 ไปเรื่อย ๆ หากไม่ใส่จะทำการดึง Index 0"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+  /other/thai/stats:
+    get:
+      tags:
+      - "Vtubers Thai"
+      description: "ดึงสถิติข้อมูลคลิปวีไทยคราว ๆ"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+  /other/all:
+    get:
+      tags:
+      - "Vtubers All"
+      description: "ดึงข้อมูลคลิปวีทั้งหมด Index 0 (หน้าละ 50 ข้อมูล)"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+  /other/all/{index}:
+    get:
+      tags:
+      - "Vtubers All"
+      description: "ดึงข้อมูลคลิปวีทั้งหมด Index อื่น ๆ (หน้าละ 50 ข้อมูล)"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "index"
+        in: "path"
+        description: "เช่น 1, 2, 3 ไปเรื่อย ๆ หากไม่ใส่จะทำการดึง Index 0"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+  /other/all/stats:
+    get:
+      tags:
+      - "Vtubers All"
+      description: "ดึงสถิติข้อมูลคลิปวีทั้งหมดคราว ๆ"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+  /other/holo:
+    get:
+      tags:
+      - "Vtubers Hololive"
+      description: "ดึงข้อมูลคลิปวี Hololive Index 0 (หน้าละ 50 ข้อมูล)"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+  /other/holo/{index}:
+    get:
+      tags:
+      - "Vtubers Hololive"
+      description: "ดึงข้อมูลคลิปวี Hololive อื่น ๆ (หน้าละ 50 ข้อมูล)"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "index"
+        in: "path"
+        description: "เช่น 1, 2, 3 ไปเรื่อย ๆ หากไม่ใส่จะทำการดึง Index 0"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+  /other/holo/stats:
+    get:
+      tags:
+      - "Vtubers Hololive"
+      description: "ดึงสถิติข้อมูลคลิปวี Hololive ทั้งหมดคราว ๆ"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+  /other/niji:
+    get:
+      tags:
+      - "Vtubers Nijisanji"
+      description: "ดึงข้อมูลคลิปวี Nijisanji Index 0 (หน้าละ 50 ข้อมูล)"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+  /other/niji/{index}:
+    get:
+      tags:
+      - "Vtubers Nijisanji"
+      description: "ดึงข้อมูลคลิปวี Nijisanji อื่น ๆ (หน้าละ 50 ข้อมูล)"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "index"
+        in: "path"
+        description: "เช่น 1, 2, 3 ไปเรื่อย ๆ หากไม่ใส่จะทำการดึง Index 0"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+  /other/niji/stats:
+    get:
+      tags:
+      - "Vtubers Nijisanji"
+      description: "ดึงสถิติข้อมูลคลิปวี Nijisanji ทั้งหมดคราว ๆ"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+  /info/group:
+    get:
+      tags:
+      - "Info"
+      description: "ดึงข้อมูลกลุ่มวีทั้งหมด"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+  /info/group/{uuid}:
+    get:
+      tags:
+      - "Info"
+      description: "ดึงข้อมูลวีจากกลุ่มนั้น ๆ"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "uuid"
+        in: "path"
+        description: "ดึงเฉพาะวีจาก UUID ของกลุ่มวีนั้น ๆ"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+  /info/vtuber:
+    get:
+      tags:
+      - "Info"
+      description: "ดึงข้อมูลวีทั้งหมด"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+  /info/vtuber/{uuid}:
+    get:
+      tags:
+      - "Info"
+      description: "ดึงข้อมูลวีนั้น ๆ"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "uuid"
+        in: "path"
+        description: "ดึงเฉพาะวีจาก UUID ของวีนั้น ๆ"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+  /info/platform/{name}:
+    get:
+      tags:
+      - "Info"
+      description: "ดึงข้อมูลวีทั้งหมดจาก Platform ที่ระบุ"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "ดึงเฉพาะวีทั้งหมดจาก Platform ที่ระบุ"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+          enum:
+          - "youtube"
+          - "twitch"
+          - "bilibili"
+          default: "available"
+      responses:
+        200:
+          description: "successful operation"
+externalDocs:
+  description: "Base API"
+  url: "https://vapi.many.win"
