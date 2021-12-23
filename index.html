@@ -14,57 +14,85 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" as="style">
     <link rel="preload" href="./assets/main.min.css" as="style">
-    <link rel="preload" href="./assets/laibaht.webp" as="image">
     <link rel="icon" href="./assets/avatar.webp">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap">
     <link rel="stylesheet" href="./assets/main.min.css">
 </head>
 <body>
     <header>
-        <h1>git.manybahtpage.com</h1>
+        <h1>Manybaht's Git Page</h1>
     </header>
-    <h2>Directory/</h2><br>
+    <h2>Projects/</h2><br>
     <blockquote>
-        <b>vapi</b><br>
-        A Swagger API of VAPI<br>
+        <b>Manybaht Discord Music Bot</b><br>
+        Play From Youtube, Spotify And Soundcloud. 65,000 Servers+ Invited.<br>
         <nav>
-            <a href="vapi" target="blank">Folder Link</a> /
-            <a href="https://github.com/manybaht/VAPI-Swagger" target="blank">Repository</a>
+            <a href="https://bot.many.win" target="blank">Main Website</a>
         </nav>
     </blockquote>
     <blockquote>
-        <b>storages</b><br>
-        For CDN Jsdelivr<br>
-        <ul>
-            <li>
-                storages/images
-                <nav>
-                    <a href="./storages/images/avatar.webp" target="blank">avatar.webp</a> /
-                    <a href="https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@b89c90e/storages/images/avatar.webp" target="blank">CDN</a><br>
-                    <a href="./storages/images/laibaht.webp" target="blank">laibaht.webp</a> /
-                    <a href="https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@b89c90e/storages/images/laibaht.webp" target="blank">CDN</a>
-                </nav>
-            </li>
-            <li>
-                storages/styles
-                <nav>
-                    <a href="./storages/styles/nocss.min.css" target="blank">nocss.min.css</a> /
-                    <a href="https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@5cac6c8/storages/styles/nocss.min.css" target="blank">CDN</a>
-                </nav>
-            </li>
-        </ul>
+        <b>VAPI</b><br>
+        Vtubers's API With 10,000+ Channels's Feed.<br>
+        <nav>
+            <a href="https://vapiswagger.manybahtpage.com" target="blank">Swagger API</a>
+        </nav>
     </blockquote>
-    <h2>Contact Us</h2>
-    <nav>
-        <a href="https://www.facebook.com/manybahtpage" target="blank">Facebook</a> /
-        <a href="https://twitter.com/manybahtpage" target="blank">Twitter</a> /
-        <a href="https://www.instagram.com/manybahtpage" target="blank">Instagram</a> /
-        <a href="https://discord.com/invite/Q3B76tWvnJ" target="blank">Discord</a> /
-        <a href="mailto:manybahtpage@gmail.com">Email</a>
-    </nav>
-    <hr>
-    Repo.
-    <a href="https://github.com/manybaht/manybaht.github.io" target="blank">Github@manybaht/manybaht.github.io</a>
-    <hr>
+    <blockquote>
+        <b>Laplus</b><br>
+        A Discord Music Bot Using Lavalink.<br>
+        <nav>
+            <a href="https://github.com/manybaht/Laplus" target="blank">Repository</a>
+        </nav>
+    </blockquote>
+    <h2>Directories/</h2><br>
+    <div id="dirListings"></div>
 </body>
 </html>
+
+<script>
+const dirListing = document.getElementById("dirListings");
+
+run();
+
+async function run() {
+    const res = await fetch("https://api.github.com/repos/manybaht/manybaht.github.io/contents/");
+    const resjson = await res.json();
+    for(let file of resjson) {
+        if(file.type == "dir") {
+            dirListing.innerHTML += `
+            <blockquote>
+                <b>${file.name}</b>
+                <nav id="${file.sha}">
+                    <a href="${file.html_url}" target="blank">Go To Folder</a> /
+                    <a onclick="fetchListing('${file.path}', '${file.sha}');">Fetch Files/Dirs Listing</a>
+                </nav>
+            </blockquote>
+            `
+        }
+    }
+}
+
+async function fetchListing(api, name) {
+    const fetchDisply = document.getElementById(name);
+    const res = await fetch(`https://api.github.com/repos/manybaht/manybaht.github.io/contents/${api}`);
+    const resjson = await res.json();
+    let buildDisplay = "";
+    for(let file of resjson) {
+        if(file.type == "dir") {
+            buildDisplay += `
+            <li id="${file.sha}">
+                <a onclick="fetchListing('${file.path}', '${file.sha}');">${file.name} (Dir)</a>
+            </li>
+            `
+        } else {
+            buildDisplay += `
+            <li>
+                <a href="${file.html_url}" target="blank">${file.name}</a> / <a href="https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@main/${file.path}" target="blank">CDN</a>
+            </li>
+            `
+        }
+    }
+    buildDisplay = '<ul>' + buildDisplay + '</ul>';
+    fetchDisply.innerHTML += buildDisplay;
+}
+</script>
