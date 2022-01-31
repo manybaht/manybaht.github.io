@@ -30,7 +30,9 @@ async function run() {
     });
 
     const mp3url = params.mp3url;
+    const id = params.id;
     player.innerHTML = `
+        <h1>ID : ${id}</h1><br/>
         <audio controls>
             <source src="${mp3url}" type="audio/mpeg">
         </audio controls>
