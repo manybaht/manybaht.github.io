@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-Tool | Listen</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" as="style">
+    <link rel="preload" href="https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@54df94b/storages/styles/nocss.min.css" as="style">
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@main/storages/images/avatar.webp">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@54df94b/storages/styles/nocss.min.css">
+</head>
+<body>
+    <header>
+        <h1>V-Tool | Listen</h1>
+    </header>
+    <div id="player"></div>
+</body>
+</html>
+
+<script>
+const player = document.getElementById("player");
+
+run();
+
+async function run() {
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+    });
+
+    const mp3url = params.mp3url;
+    const id = params.id;
+    player.innerHTML = `
+        <h1>ID : ${id}</h1><br/>
+        <audio controls>
+            <source src="${mp3url}" type="audio/mpeg">
+        </audio controls>
+    `
+}
+</script>
