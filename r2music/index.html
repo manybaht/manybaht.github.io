@@ -1,76 +1,101 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>git.manybahtpage.com</title>
-    <meta name="description" content="git.manybahtpage.com">
-    <meta name="keywords" content="git.manybahtpage.com">
-    <meta property="og:title" content="git.manybahtpage.com">
-    <meta property="og:url" content="https://git.manybahtpage.com">
-    <meta property="og:description" content="git.manybahtpage.com">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@main/storages/images/laibaht.webp">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" as="style">
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@54df94b/storages/styles/nocss.min.css" as="style">
-    <link rel="icon" href="https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@main/storages/images/avatar.webp">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@54df94b/storages/styles/nocss.min.css">
-</head>
-<body>
-    <header>
-        <h1>Manybaht's Git Page | Laibaht Music Link Generator</h1>
-    </header>
-    <h2>laibaht_music/</h2><br>
-    <div id="dirListings"></div>
-</body>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>git.manybahtpage.com</title>
+        <meta name="description" content="git.manybahtpage.com">
+        <meta name="keywords" content="git.manybahtpage.com">
+        <meta property="og:title" content="git.manybahtpage.com">
+        <meta property="og:url" content="https://git.manybahtpage.com">
+        <meta property="og:description" content="git.manybahtpage.com">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@main/storages/images/laibaht.webp">
+        <link href="https://vjs.zencdn.net/7.20.2/video-js.css" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Kanit:400,500,600&display=swap" rel="stylesheet"/>
+        <style>
+            html, body {
+                background-color: #121212;
+                font-family: 'Kanit', sans-serif;
+            }
+            maincard {
+                margin-top: 30vh;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            select {
+                width: 80vw;
+                padding: 1em 2em;
+                border-radius: .5em;
+                font-family: 'Kanit', sans-serif;
+                font-size: large;
+            }
+            @media (min-width: 1281px) {
+                select {
+                    width: 25vw;
+                }
+            }
+            @media (min-width: 1025px) and (max-width: 1280px) {
+                select {
+                    width: 30vw;
+                }
+            }
+            @media (min-width: 768px) and (max-width: 1024px) {
+                select {
+                    width: 35vw;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <maincard>
+            <div id="menu" style="display: none;">
+                <select name="musicList" id="musicList">
+                </select>
+                <br/>
+                <br/>
+            </div>
+            <video
+                id="main-player"
+                class="video-js"
+                controls
+                preload="auto"
+                width="auto"
+                height="auto"
+                poster="https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@main/storages/images/laibaht_arts/laiok.png"
+                data-setup="{}"
+            >
+            </video>
+        </maincard>
+        <script src="https://vjs.zencdn.net/7.20.2/video.min.js"></script>
+        <script>
+            const player = videojs(document.querySelector('.video-js'));
+            const musicList = document.getElementById('musicList');
+            const menu = document.getElementById('menu');
+
+            getList();
+
+            document.getElementById("musicList").addEventListener("change", selectSong, false);
+
+            async function getList() {
+                let res = await fetch('https://r2.many.win/object/createkeylist/lirrr/true/true');
+                res = await res.json();
+                
+                for(i = 0; i < res.length; i++) {
+                    musicList.innerHTML += `<option value="${res[i]["access_url"]}">${res[i]["key"].split('.mp3')[0]}</option>`
+                }
+
+                menu.style.display = '';
+            }
+
+            function selectSong() {
+                player.src({
+                    src: musicList.value,
+                    type: 'audio/mpeg',
+                });
+                player.play();
+            }
+        </script>
+    </body>
 </html>
-
-<script>
-const dirListing = document.getElementById("dirListings");
-
-run();
-
-async function run() {
-    const res = await fetch("https://api.github.com/repos/manybahtpage/laibaht_music/contents/");
-    const resjson = await res.json();
-    for(let file of resjson) {
-        if(file.type == "dir") {
-            dirListing.innerHTML += `
-            <blockquote>
-                <b>${file.name}</b>
-                <nav id="${file.sha}">
-                    <a href="${file.html_url}" target="blank">Go To Folder</a> /
-                    <a onclick="fetchListing('${file.path}', '${file.sha}');">Fetch Files/Dirs Listing</a>
-                </nav>
-            </blockquote>
-            `
-        }
-    }
-}
-
-async function fetchListing(api, name) {
-    const fetchDisply = document.getElementById(name);
-    const res = await fetch(`https://api.github.com/repos/manybahtpage/laibaht_music/contents/${api}`);
-    const resjson = await res.json();
-    let buildDisplay = "";
-    for(let file of resjson) {
-        if(file.type == "dir") {
-            buildDisplay += `
-            <li id="${file.sha}">
-                <a onclick="fetchListing('${file.path}', '${file.sha}');">${file.name} (Dir)</a>
-            </li>
-            `
-        } else {
-            buildDisplay += `
-            <li>
-                <a href="${file.html_url}" target="blank">${file.name}</a> / <a href="https://cdn.jsdelivr.net/gh/manybahtpage/laibaht_music@main/${file.path.substring(0, file.path.lastIndexOf("/") + 1)}${file.download_url.substring(file.download_url.lastIndexOf("/") + 1)}" target="blank">CDN</a>
-            </li>
-            `
-        }
-    }
-    buildDisplay = '<ul>' + buildDisplay + '</ul>';
-    fetchDisply.innerHTML += buildDisplay;
-}
-</script>
